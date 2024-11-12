@@ -1,8 +1,11 @@
 import axios from "axios";
 
-// Create an Axios instance with default configurations
+console.log("Backend Base URL:", import.meta.env.VITE_BACKEND_URL);
+
 const api = axios.create({
-  baseURL: "https://project3backend-8r7s.onrender.com", // Your backend URL (update if different)
+  baseURL:
+    import.meta.env.VITE_BACKEND_URL ||
+    "https://project3backend-8r7s.onrender.com",
   headers: {
     "Content-Type": "application/json",
   },
