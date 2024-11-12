@@ -164,7 +164,9 @@ const CaseDetails = () => {
                 <h4 style={styles.textElement}>Audio Preview:</h4>
                 <audio controls>
                   <source
-                    src={`http://localhost:5001/${caseDetails.audioFile}`}
+                    src={`${import.meta.env.VITE_BACKEND_URL}/${
+                      caseDetails.audioFile
+                    }`}
                     type="audio/mpeg"
                   />
                   Your browser does not support the audio element.
