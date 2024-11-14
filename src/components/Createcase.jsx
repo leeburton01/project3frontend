@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import api from "../utils/api";
+import axios from "axios";
 
 const CreateCase = () => {
   const [audioFile, setAudioFile] = useState(null);
@@ -44,16 +45,23 @@ const CreateCase = () => {
     formData.append("venue", venue);
 
     try {
-      const response = await api.post("/works/create-case", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-        onUploadProgress: (progressEvent) => {
-          const progress = Math.round(
-            (progressEvent.loaded * 100) / progressEvent.total
-          );
-          setUploadProgress(progress);
-          console.log(`Upload Progress: ${progress}%`);
-        },
-      });
+      // Use Axios directly to ensure the XHR adapter is used for progress tracking
+      const response = await axios.post(
+        `${import.meta.env.VITE_BACKEND_URL}/works/create-case`,
+        formData,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+          onUploadProgress: (progressEvent) => {
+            if (progressEvent.total) {
+              const progress = Math.round(
+                (progressEvent.loaded * 100) / progressEvent.total
+              );
+              setUploadProgress(progress);
+              console.log(`Upload Progress: ${progress}%`);
+            }
+          },
+        }
+      );
 
       setMessage("Case created successfully!");
       console.log("Create case response:", response.data);
