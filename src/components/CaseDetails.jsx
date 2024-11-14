@@ -162,9 +162,6 @@ const CaseDetails = () => {
               </p>
               <div>
                 <h4 style={styles.textElement}>Audio Preview:</h4>
-                const audioUrl = `${import.meta.env.VITE_BACKEND_URL}/$
-                {caseDetails.audioFile}`; console.log("Audio file URL:",
-                audioUrl);
                 <audio controls>
                   <source
                     src={`${import.meta.env.VITE_BACKEND_URL}/${
