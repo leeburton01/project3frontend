@@ -11,6 +11,7 @@ const CreateCase = () => {
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState(0);
 
   const handleFileChange = (e) => {
     setAudioFile(e.target.files[0]);
@@ -32,10 +33,11 @@ const CreateCase = () => {
     setMessage("");
     setError("");
     setLoading(true);
+    setUploadProgress(0); // Reset progress
 
     const formData = new FormData();
     formData.append("audioFile", audioFile);
-    formData.append("instagramEmbedCode", instagramUrl); // Instagram URL
+    formData.append("instagramEmbedCode", instagramUrl);
     formData.append("artistName", artistName);
     formData.append("title", title);
     formData.append("iswc", iswc);
@@ -44,6 +46,13 @@ const CreateCase = () => {
     try {
       const response = await api.post("/works/create-case", formData, {
         headers: { "Content-Type": "multipart/form-data" },
+        onUploadProgress: (progressEvent) => {
+          const progress = Math.round(
+            (progressEvent.loaded * 100) / progressEvent.total
+          );
+          setUploadProgress(progress);
+          console.log(`Upload Progress: ${progress}%`);
+        },
       });
 
       setMessage("Case created successfully!");
@@ -54,6 +63,7 @@ const CreateCase = () => {
       console.error("Create case error:", err);
     } finally {
       setLoading(false);
+      setUploadProgress(0); // Reset progress after completion
     }
   };
 
@@ -124,12 +134,38 @@ const CreateCase = () => {
         <button type="submit" disabled={loading}>
           {loading ? "Creating..." : "Create Case"}
         </button>
+        {loading && (
+          <div style={styles.progressBarContainer}>
+            <div style={{ ...styles.progressBar, width: `${uploadProgress}%` }}>
+              {uploadProgress}%
+            </div>
+          </div>
+        )}
       </form>
 
       {message && <p style={{ color: "green" }}>{message}</p>}
       {error && <p style={{ color: "red" }}>{error}</p>}
     </div>
   );
+};
+
+const styles = {
+  progressBarContainer: {
+    width: "100%",
+    height: "20px",
+    backgroundColor: "#e0e0e0",
+    borderRadius: "10px",
+    marginTop: "10px",
+  },
+  progressBar: {
+    height: "100%",
+    backgroundColor: "#007BFF",
+    borderRadius: "10px",
+    textAlign: "center",
+    color: "white",
+    fontWeight: "bold",
+    lineHeight: "20px",
+  },
 };
 
 export default CreateCase;
