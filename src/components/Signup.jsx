@@ -23,7 +23,7 @@ const Signup = () => {
     try {
       const response = await api.post("/auth/signup", formData);
       console.log("Signup successful:", response.data);
-      navigate("/login");
+      navigate("/profile-setup");
     } catch (err) {
       setError("Signup failed. Please try again.");
       console.error(
