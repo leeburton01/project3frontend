@@ -68,10 +68,10 @@ const CreateCase = () => {
   };
 
   return (
-    <div>
+    <div style={styles.container}>
       <h1>Create a New Case</h1>
-      <form onSubmit={handleCreateCase}>
-        <div>
+      <form onSubmit={handleCreateCase} style={styles.form}>
+        <div style={styles.inputGroup}>
           <label>Artist Name:</label>
           <input
             type="text"
@@ -81,7 +81,7 @@ const CreateCase = () => {
           />
         </div>
 
-        <div>
+        <div style={styles.inputGroup}>
           <label>Title:</label>
           <input
             type="text"
@@ -91,7 +91,7 @@ const CreateCase = () => {
           />
         </div>
 
-        <div>
+        <div style={styles.inputGroup}>
           <label>ISWC:</label>
           <input
             type="text"
@@ -100,7 +100,7 @@ const CreateCase = () => {
           />
         </div>
 
-        <div>
+        <div style={styles.inputGroup}>
           <label>Venue:</label>
           <input
             type="text"
@@ -110,7 +110,7 @@ const CreateCase = () => {
           />
         </div>
 
-        <div>
+        <div style={styles.inputGroup}>
           <label>Audio File:</label>
           <input
             type="file"
@@ -120,7 +120,7 @@ const CreateCase = () => {
           />
         </div>
 
-        <div>
+        <div style={styles.inputGroup}>
           <label>Instagram URL:</label>
           <input
             type="url"
@@ -150,6 +150,23 @@ const CreateCase = () => {
 };
 
 const styles = {
+  container: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    padding: "20px",
+    maxWidth: "600px",
+    margin: "0 auto",
+    backgroundColor: "#f9f9f9",
+    borderRadius: "10px",
+    boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
+  },
+  form: {
+    width: "100%",
+  },
+  inputGroup: {
+    marginBottom: "15px",
+  },
   progressBarContainer: {
     width: "100%",
     height: "20px",
