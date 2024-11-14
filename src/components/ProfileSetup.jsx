@@ -23,20 +23,19 @@ const ProfileSetup = () => {
 
   const handleProfileSetup = async (e) => {
     e.preventDefault();
-
-    // Retrieve the token from local storage
-    const token = localStorage.getItem("token");
-
-    if (!token) {
-      setError("Authentication token is missing. Please log in again.");
-      return;
-    }
-
     try {
+      // Get the token from localStorage
+      const token = localStorage.getItem("token");
+      if (!token) {
+        setError("Authentication token is missing. Please log in again.");
+        navigate("/login");
+        return;
+      }
+
+      // Make the API request with the Authorization header
       const response = await api.put("/auth/profile", formData, {
         headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`, // Include the token in the request headers
+          Authorization: `Bearer ${token}`,
         },
       });
 
@@ -44,10 +43,7 @@ const ProfileSetup = () => {
       navigate("/dashboard");
     } catch (err) {
       setError("Profile setup failed. Please try again.");
-      console.error(
-        "Error during profile setup:",
-        err.response ? err.response.data : err.message
-      );
+      console.error(err);
     }
   };
 

@@ -20,9 +20,25 @@ const Signup = () => {
   const handleSignup = async (e) => {
     e.preventDefault();
     console.log("Attempting signup with data:", formData);
+
     try {
+      // Make the signup request
       const response = await api.post("/auth/signup", formData);
       console.log("Signup successful:", response.data);
+
+      // Now, attempt to log the user in automatically after signup
+      const loginResponse = await api.post("/auth/login", {
+        email: formData.email,
+        password: formData.password,
+      });
+
+      const { token } = loginResponse.data;
+      console.log("Login successful, token:", token);
+
+      // Save the token to localStorage
+      localStorage.setItem("token", token);
+
+      // Redirect the user to the profile setup page
       navigate("/profile-setup");
     } catch (err) {
       setError("Signup failed. Please try again.");
